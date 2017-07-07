@@ -5,13 +5,13 @@ set -e
 
 # install sickbeard converter stuff
 
-mkdir /home/nobody/.cache/pip
-mkdir /home/nobody/.cache/pip/http
-mkdir /home/nobody/.cache/Python-Eggs
-
-chown -R root:root /home/nobody/.cache
-chmod -R a+r /home/nobody/.cache/
-chmod -R a+w /home/nobody/.cache/
+# mkdir /home/nobody/.cache/pip
+# mkdir /home/nobody/.cache/pip/http
+# mkdir /home/nobody/.cache/Python-Eggs
+# 
+# chown -R root:root /home/nobody/.cache
+# chmod -R a+r /home/nobody/.cache/
+# chmod -R a+w /home/nobody/.cache/
 
 pacman -S --noconfirm git
 pacman -S --noconfirm go
