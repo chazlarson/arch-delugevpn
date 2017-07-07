@@ -61,4 +61,4 @@ CMD ["/bin/bash", "/root/init.sh"]
 #######################
 
 # run script to install mp4-converter
-CMD ["/bin/bash", "/root/sbmp4.sh"]
+# CMD ["/bin/bash", "/root/sbmp4.sh"]

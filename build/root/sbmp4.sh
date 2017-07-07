@@ -21,7 +21,7 @@ pacman -S --noconfirm nano
 pacman -S --noconfirm ffmpeg
 pacman -S --noconfirm base-devel
 
-mkdir /opt
+# mkdir /opt
 cd /opt
 
 git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git
