@@ -28,7 +28,10 @@ source /root/custom.sh
 ####
 
 # define pacman packages
-pacman_packages="pygtk python2-service-identity python2-mako python2-notify gnu-netcat ipcalc"
+# pacman_packages="pygtk python2-service-identity python2-mako python2-notify gnu-netcat ipcalc"
+
+# 2017-07-07 chaz - Added packages required by sickbeard converter
+pacman_packages="pygtk python2-service-identity python2-mako python2-notify gnu-netcat ipcalc git go openssh python nano ffmpeg base-devel python2-setuptools"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -216,51 +219,42 @@ sed -i '/# ENVVARS_PLACEHOLDER/{
 }' /root/init.sh
 rm /tmp/envvars_heredoc
 
-# install sickbeard converter stuff
+# 2017-07-07 chaz - install sickbeard converter stuff
 
-# mkdir /home/nobody/.cache/pip
-# mkdir /home/nobody/.cache/pip/http
-# mkdir /home/nobody/.cache/Python-Eggs
-# 
-# chown -R root:root /home/nobody/.cache
-# chmod -R a+r /home/nobody/.cache/
-# chmod -R a+w /home/nobody/.cache/
-# 
-# pacman -S --noconfirm git
-# pacman -S --noconfirm go
-# pacman -S --noconfirm openssh
-# pacman -S --noconfirm python
-# pacman -S --noconfirm nano
-# pacman -S --noconfirm ffmpeg
-# pacman -S --noconfirm base-devel
-# 
-# mkdir /opt
-# cd /opt
-# 
-# git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git
-# 
-# cp /home/nobody/sbmp4/autoProcess.ini sickbeard_mp4_automator
-# 
-# chmod a+w sickbeard_mp4_automator
-# 
-# pacman -S --noconfirm python2-setuptools
-# curl -f -O https://bootstrap.pypa.io/get-pip.py
-# python get-pip.py
-# 
-# pip install requests
-# pip install requests[security]
-# pip install requests-cache
-# pip install babelfish
-# pip install "guessit<2"
-# pip install "subliminal<2"
-# pip install stevedore==1.19.1
-# pip install python-dateutil
-# pip install qtfaststart
-# 
-# chown -R root:root sickbeard_mp4_automator
-# chmod -R a+w sickbeard_mp4_automator
-# 
-# rm -rf /opt/get-pip.py
+# create directories and fix up perms to avoid errors later
+# the errors are harmless but they catch the eye in logging
+mkdir /home/nobody/.cache
+mkdir /home/nobody/.cache/pip
+mkdir /home/nobody/.cache/pip/http
+mkdir /home/nobody/.cache/Python-Eggs
+ 
+chown -R root:root /home/nobody/.cache
+chmod -R a+r /home/nobody/.cache/
+chmod -R a+w /home/nobody/.cache/
+
+# move to opt directory
+cd /opt
+ 
+# get latest sickbeard_mp4_automator code
+git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git
+ 
+# grab my custom settings file
+cp /home/nobody/sbmp4/autoProcess.ini sickbeard_mp4_automator
+ 
+# change perms so conversion doesn't faile because 
+# of an inability to write to the log
+chown -R root:root sickbeard_mp4_automator
+chmod -R a+w sickbeard_mp4_automator
+ 
+# grab pip
+curl -f -O https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+rm -rf /opt/get-pip.py
+
+#use pip to install all the python deps 
+pip install requests requests[security] requests-cache babelfish "guessit<2" "subliminal<2" stevedore==1.19.1 python-dateutil qtfaststart
+
+# 2017-07-07 chaz - END OF install sickbeard converter stuff
 
 # cleanup
 yes|pacman -Scc
