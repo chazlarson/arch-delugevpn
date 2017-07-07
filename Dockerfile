@@ -29,11 +29,6 @@ ADD config/nobody/ /home/nobody/
 RUN chmod +x /root/*.sh /home/nobody/*.sh /home/nobody/*.py && \
 	/bin/bash /root/install.sh
 
-# install mp4-converter
-#######################
-
-RUN /bin/bash /root/sbmp4.sh
-
 # docker settings
 #################
 
@@ -61,3 +56,9 @@ EXPOSE 58946/udp
 
 # run script to set uid, gid and permissions
 CMD ["/bin/bash", "/root/init.sh"]
+
+# install mp4-converter
+#######################
+
+# run script to install mp4-converter
+CMD ["/bin/bash", "/root/sbmp4.sh"]
